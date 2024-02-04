@@ -8,6 +8,7 @@ const MiApi = () => {
   const [titleList, setTitleList] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
   const [sortOrder, setSortOrder] = useState('asc'); // 'asc' o 'desc'
+  const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +20,13 @@ const MiApi = () => {
         setApodData(data);
 
         if (data && data.title && !initialLoad) {
-          setTitleList((prevList) => [...prevList, data.title]);
+          
+          const isDateInList = titleList.some((item) => item.date === searchDate);
+
+          if (!isDateInList) {
+            
+            setTitleList((prevList) => [...prevList, { title: data.title, date: searchDate }]);
+          }
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -30,51 +37,91 @@ const MiApi = () => {
   }, [searchDate, initialLoad]);
 
   useEffect(() => {
-    // Set initialLoad to false after the first render
+   
     setInitialLoad(false);
   }, []);
 
   const handleSort = () => {
-    const sortedList = [...titleList].sort();
+    const sortedList = [...titleList].sort((a, b) => {
+      const dateA = new Date(a.date);
+      const dateB = new Date(b.date);
 
-    if (sortOrder === 'desc') {
-      sortedList.reverse();
-      setSortOrder('asc');
-    } else {
-      setSortOrder('desc');
-    }
+      if (dateA < dateB) return sortOrder === 'asc' ? -1 : 1;
+      if (dateA > dateB) return sortOrder === 'asc' ? 1 : -1;
 
+      return 0;
+    });
+
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     setTitleList(sortedList);
   };
 
+  const handleItemClick = (date) => {
+    setSearchDate(date);
+    setSelectedDate(date);
+
+    
+    const isDateInList = titleList.some((item) => item.date === date);
+
+    if (isDateInList) {
+      
+      return;
+    }
+
+   
+    setTitleList((prevList) => [...prevList, { title: apodData.title, date }]);
+  };
+
+  const currentDate = new Date().toISOString().split('T')[0];
+
   return (
-    <div className="d-flex flex-column align-items-center">
-      <h1>Imagen Astronómica del Día</h1>
-      <label>Seleccionar fecha:</label>
-      <input
-        type="date"
-        value={searchDate}
-        onChange={(e) => setSearchDate(e.target.value)}
-      />
-      {apodData && (
-        <Card className="mb-6" style={{ maxWidth: '50rem' }}>
-          <Card.Img variant="top" src={apodData.url} alt={apodData.title} className="img-fluid" />
-          <Card.Body>
-            <Card.Title className="h4 text-center">{apodData.title}</Card.Title>
-            <Card.Text >{apodData.explanation}</Card.Text>
-          </Card.Body>
-        </Card>
-      )}
-      <div className="mx-auto">
-        <h3>Lista de Títulos:</h3>
-        <ul>
-          {titleList.map((title, index) => (
-            <li key={index}>{title}</li>
-          ))}
-        </ul>
-        <button onClick={handleSort}>
-          Ordenar Lista {sortOrder === 'asc' ? 'Ascendente' : 'Descendente'}
-        </button>
+    <div className="container">
+      <div className="d-flex flex-column align-items-center">
+        <h1 className='title_h1 my-1 bg-dark text-white p-3 mb-2' style={{ width: '100%', margin: 0, padding: 0 }}>
+          Imagen Astronómica del Día
+        </h1>
+        <div className="row">
+          <div className="col-md-6 d-flex justify-content-center">
+            {apodData && (
+              <Card className="mb-4" style={{ width: '100%', height: '100%', maxWidth: '50rem', flexGrow: 1 }}>
+                <Card.Img variant="top" src={apodData.url} alt={apodData.title} className="img-fluid" />
+                <Card.Body>
+                  <Card.Title className="h4 text-center">{apodData.title}</Card.Title>
+                  <Card.Text className="overflow-auto" style={{ maxHeight: '300px' }}>
+                    {apodData.explanation}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            )}
+          </div>
+          <div className=' date_title col-md-6 d-flex flex-column align-items-center'>
+            <label className='label_fecha'>Seleccionar fecha:</label>
+            <input
+              type="date"
+              value={selectedDate || searchDate}
+              onChange={(e) => setSearchDate(e.target.value)}
+              max={currentDate} 
+              className="mb-3"
+            />
+            <div className="mx-auto list">
+              <h3>Lista de Títulos:</h3>
+              <ul>
+                {titleList.map((item, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleItemClick(item.date)}
+                    style={{ cursor: 'pointer' }}
+                  >
+                    {item.title}
+                  </li>
+                ))}
+              </ul>
+              <button onClick={handleSort} className="btn btn-primary mt-3">
+                Ordenar Lista {sortOrder === 'asc' ? 'Ascendente' : 'Descendente'}
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
