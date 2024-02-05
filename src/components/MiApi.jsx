@@ -77,21 +77,22 @@ const MiApi = () => {
   return (
     <div className="container">
       <div className="d-flex flex-column align-items-center">
-        <h1 className='title_h1 my-1 bg-dark text-white p-3 mb-2' style={{ width: '100%', margin: 0, padding: 0 }}>
+        <h1 className='title_h1 my-1 text-white p-3 mb-2' style={{ width: '100%', margin: 0, padding: 0 }}>
           Imagen Astronómica del Día
         </h1>
         <div className="row">
           <div className="col-md-6 d-flex justify-content-center">
             {apodData && (
-              <Card className="mb-4" style={{ width: '100%', height: '100%', maxWidth: '50rem', flexGrow: 1 }}>
-                <Card.Img variant="top" src={apodData.url} alt={apodData.title} className="img-fluid" />
-                <Card.Body>
-                  <Card.Title className="h4 text-center">{apodData.title}</Card.Title>
-                  <Card.Text className="overflow-auto" style={{ maxHeight: '300px' }}>
-                    {apodData.explanation}
-                  </Card.Text>
-                </Card.Body>
-              </Card>
+           <Card className="mb-4" style={{ width: '100%', height: '100%', maxWidth: '50rem', flexGrow: 1, display: 'flex' }}>
+  <Card.Img variant="top" src={apodData.url} alt={apodData.title} className="img-fluid img_nasa" />
+  <Card.Body style={{ flex: 1 }}>
+    <Card.Title className="h4 my-3 text-center badge bg-dark card_title">{apodData.title}</Card.Title>
+    <Card.Text className="overflow-auto text-justify" style={{ maxHeight: '200px', marginLeft: '10px' }}>
+      {apodData.explanation}
+    </Card.Text>
+  </Card.Body>
+</Card>
+
             )}
           </div>
           <div className=' date_title col-md-6 d-flex flex-column align-items-center'>
@@ -101,10 +102,11 @@ const MiApi = () => {
               value={selectedDate || searchDate}
               onChange={(e) => setSearchDate(e.target.value)}
               max={currentDate} 
-              className="mb-3"
+              className="mb-3 input-group-text"
+              id="inputGroup-sizing-lg"
             />
             <div className="mx-auto list">
-              <h3>Lista de Títulos:</h3>
+              <h3>Listado de imagenes vistas:</h3>
               <ul>
                 {titleList.map((item, index) => (
                   <li
@@ -116,8 +118,8 @@ const MiApi = () => {
                   </li>
                 ))}
               </ul>
-              <button onClick={handleSort} className="btn btn-primary mt-3">
-                Ordenar Lista {sortOrder === 'asc' ? 'Ascendente' : 'Descendente'}
+              <button onClick={handleSort} className="btn btn-light mt-3">
+                Ordenar por fecha {sortOrder === 'asc' ? '▲' : '▼'}
               </button>
             </div>
           </div>

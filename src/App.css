@@ -5,48 +5,16 @@
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-}
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
 .card {
   padding: 2em;
 }
 
-.read-the-docs {
-  color: #888;
-}
 
-.date_title, .list {
-  border: 1px solid black;
-}
+/* .date_title, .list {
+  border: 1px solid rgb(255, 255, 255);
+} */
 
 .list li {
-width: 400px;
 list-style-type: none;
 }
 
@@ -54,6 +22,33 @@ list-style-type: none;
   margin: 20px 0;
 }
 
-/* body {
-  background-color: black;
-} */
+body {
+  /* background-color: black; */
+  background-image: url('https://images.unsplash.com/photo-1462332420958-a05d1e002413?q=80&w=2107&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+}
+
+
+.card_title {
+  background:#fff;
+  padding:15px;
+  border-radius:6px;
+  box-shadow: 0 19px 38px rgba(0,0,0,0.80), 0 15px 12px rgba(0,0,0,0.22);
+  /* position:relative; */
+  margin:20px auto;
+}
+
+.img_nasa {
+  /* background:#fff; */
+  /* padding:15px;
+  border-radius:6px; */
+  box-shadow: 0 19px 38px rgba(0,0,0,0.80), 0 15px 12px rgba(0,0,0,0.22);
+  /* position:relative; */
+  /* margin:20px auto; */
+}
+
