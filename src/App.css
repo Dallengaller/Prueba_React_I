@@ -9,11 +9,6 @@
   padding: 2em;
 }
 
-
-/* .date_title, .list {
-  border: 1px solid rgb(255, 255, 255);
-} */
-
 .list li {
 list-style-type: none;
 }
@@ -23,32 +18,57 @@ list-style-type: none;
 }
 
 body {
-  /* background-color: black; */
-  background-image: url('https://images.unsplash.com/photo-1462332420958-a05d1e002413?q=80&w=2107&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin: 0;
-  padding: 0;
-  height: 100vh;
+  background-color: rgb(216, 216, 216);
 }
-
 
 .card_title {
   background:#fff;
   padding:15px;
   border-radius:6px;
   box-shadow: 0 19px 38px rgba(0,0,0,0.80), 0 15px 12px rgba(0,0,0,0.22);
-  /* position:relative; */
   margin:20px auto;
 }
 
 .img_nasa {
-  /* background:#fff; */
-  /* padding:15px;
-  border-radius:6px; */
-  box-shadow: 0 19px 38px rgba(0,0,0,0.80), 0 15px 12px rgba(0,0,0,0.22);
-  /* position:relative; */
-  /* margin:20px auto; */
+  box-shadow: 0 17px 35px rgba(0,0,0,0.80), 0 15px 12px rgba(0,0,0,0.24);
+  background-color: transparent;
+  margin: 20px auto;
 }
 
+.card_nasa {
+  background:#fff;
+  padding:15px;
+  border-radius:6px;
+  box-shadow: 0 19px 38px rgba(0,0,0,0.80), 0 15px 12px rgba(0,0,0,0.22);
+  margin:20px auto;
+}
+
+.title_h1 {
+ border-radius: 5px;
+ 
+}
+
+/*  Reorganizacion para version mobil */
+@media (max-width: 768px) {
+  .date_title {
+    order: -1; 
+  }
+
+  .title_h1 {
+    margin-top: 0;
+  }
+
+  .mt-2.mb-2 {
+    margin-top: 10px;
+    margin-bottom: 10px; 
+  }
+
+  .btn-light {
+    width: 100%; 
+  }
+
+  .list {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+}

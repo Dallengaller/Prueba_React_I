@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import Card from 'react-bootstrap/Card';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import Buscador from './Buscador';
+
 
 const MiApi = () => {
   const [apodData, setApodData] = useState(null);
   const [searchDate, setSearchDate] = useState('');
   const [titleList, setTitleList] = useState([]);
   const [initialLoad, setInitialLoad] = useState(true);
-  const [sortOrder, setSortOrder] = useState('asc'); // 'asc' o 'desc'
+  const [sortOrder, setSortOrder] = useState('asc');
   const [selectedDate, setSelectedDate] = useState(null);
 
   useEffect(() => {
@@ -20,11 +22,8 @@ const MiApi = () => {
         setApodData(data);
 
         if (data && data.title && !initialLoad) {
-          
           const isDateInList = titleList.some((item) => item.date === searchDate);
-
           if (!isDateInList) {
-            
             setTitleList((prevList) => [...prevList, { title: data.title, date: searchDate }]);
           }
         }
@@ -37,7 +36,6 @@ const MiApi = () => {
   }, [searchDate, initialLoad]);
 
   useEffect(() => {
-   
     setInitialLoad(false);
   }, []);
 
@@ -60,15 +58,12 @@ const MiApi = () => {
     setSearchDate(date);
     setSelectedDate(date);
 
-    
     const isDateInList = titleList.some((item) => item.date === date);
 
     if (isDateInList) {
-      
       return;
     }
 
-   
     setTitleList((prevList) => [...prevList, { title: apodData.title, date }]);
   };
 
@@ -77,36 +72,38 @@ const MiApi = () => {
   return (
     <div className="container">
       <div className="d-flex flex-column align-items-center">
-        <h1 className='title_h1 my-1 text-white p-3 mb-2' style={{ width: '100%', margin: 0, padding: 0 }}>
-          Imagen Astronómica del Día
-        </h1>
+
         <div className="row">
           <div className="col-md-6 d-flex justify-content-center">
             {apodData && (
-           <Card className="mb-4" style={{ width: '100%', height: '100%', maxWidth: '50rem', flexGrow: 1, display: 'flex' }}>
-  <Card.Img variant="top" src={apodData.url} alt={apodData.title} className="img-fluid img_nasa" />
-  <Card.Body style={{ flex: 1 }}>
-    <Card.Title className="h4 my-3 text-center badge bg-dark card_title">{apodData.title}</Card.Title>
-    <Card.Text className="overflow-auto text-justify" style={{ maxHeight: '200px', marginLeft: '10px' }}>
-      {apodData.explanation}
-    </Card.Text>
-  </Card.Body>
-</Card>
-
+              <Card className="mb-2 card_nasa" style={{ width: '100%', height: '100%', maxWidth: '30rem', flexGrow: 1, display: 'flex' }}>
+                <Card.Img
+                  variant="top"
+                  src={apodData.url}
+                  alt={apodData.title}
+                  className="img_nasa"
+                />
+                <Card.Body style={{ flex: 1 }}>
+                  <Card.Title className="h4 my-3 text-center badge bg-dark card_title">{apodData.title}</Card.Title>
+                  <Card.Text className="overflow-auto text-justify" style={{ maxHeight: '100px', marginLeft: '10px' }}>
+                    {apodData.explanation}
+                  </Card.Text>
+                </Card.Body>
+              </Card>
             )}
           </div>
           <div className=' date_title col-md-6 d-flex flex-column align-items-center'>
-            <label className='label_fecha'>Seleccionar fecha:</label>
-            <input
-              type="date"
-              value={selectedDate || searchDate}
-              onChange={(e) => setSearchDate(e.target.value)}
-              max={currentDate} 
-              className="mb-3 input-group-text"
-              id="inputGroup-sizing-lg"
-            />
-            <div className="mx-auto list">
-              <h3>Listado de imagenes vistas:</h3>
+            <h1 className='p-1 bg-secondary text-white title_h1' style={{ width: '100%', margin: 20, padding: 0 }}>
+              Imagen Astronómica del Día
+            </h1>
+            <div className="mt-2 mb-2">
+              <Buscador onSearch={(date) => setSearchDate(date)} />
+            </div>
+            <button onClick={handleSort} className="btn btn-light mt-3" >
+              Ordenar por fecha {sortOrder === 'asc' ? '▲' : '▼'}
+            </button>
+            <div className="mx-auto list mt-4 mb-2 ">
+              <h3>Listado de imágenes vistas:</h3>
               <ul>
                 {titleList.map((item, index) => (
                   <li
@@ -118,9 +115,7 @@ const MiApi = () => {
                   </li>
                 ))}
               </ul>
-              <button onClick={handleSort} className="btn btn-light mt-3">
-                Ordenar por fecha {sortOrder === 'asc' ? '▲' : '▼'}
-              </button>
+
             </div>
           </div>
         </div>

@@ -6,8 +6,8 @@ import './App.css';
 
 const App = () => {
   return (
-    <div>
-      <main>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <main style={{ flex: 1 }}>
         <MiApi />
       </main>
       <footer className="text-center py-5">
